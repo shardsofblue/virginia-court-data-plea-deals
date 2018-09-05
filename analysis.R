@@ -119,4 +119,5 @@ compute_percentage <- function(which_summary) {
 plea_type_percentagetest <- compute_percentage(summary_hearingplea)
 
 #-----
+.
 
