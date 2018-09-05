@@ -105,3 +105,18 @@ summary_pleaandrace <- cross_tab_analysis(thistable, quo(HearingPlea), quo(Race)
 #More caucasian than any other race pled guilty, but more caucasian than other races were charged
 #Need to discover the percentage of guilty pleas w/in each race
 
+#A function to compute the percentage of a row and put the results in a new column
+#Step1: I want to take each row, col2, and divide it by total_count, and multiply it by 100
+#Step2: I want to store that data in row1, col3, under the name Percentage
+compute_percentage <- function(which_summary) {
+  
+  cell_used <- which_summary$count
+  total <- sum(which_summary$count)
+  percentage <- round((cell_used / total)*100,2)
+  mutate(which_summary, percentage)
+}
+
+plea_type_percentagetest <- compute_percentage(summary_hearingplea)
+
+#-----
+
