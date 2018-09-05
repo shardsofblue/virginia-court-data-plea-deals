@@ -119,16 +119,13 @@ compute_percentage <- function(which_summary) {
 hearing_plea_percentage <- compute_percentage(summary_hearingplea)
 
 #Computing percentage with cross-tabs
-#Total for each race
+#Total for each race----
 summary_pleaandrace_pc <-
-  #group by race
-  group_by(summary_pleaandrace, Race) %>%
-  #compute total of pleas by race
-  mutate(Total_Count = sum(count)) %>%
-  #group by plea made at hearing
-  group_by(HearingPlea, add=TRUE)
-  #compute percentage
-  #%>% mutate(per=paste0(round(100*count/Total_Count,2),'%'))
+  #group by race and compute total of pleas w/in race, with NA dropped
+  group_by(subset(summary_pleaandrace, HearingPlea!="NA"), Race) %>%
+    mutate(Total_Count = sum(count)) %>%
+    #group by plea made at hearing and compute percentage w/in each race
+    group_by(HearingPlea, add=TRUE) %>%
+    mutate(Percentage_of_Total_Count = paste0(round(100*count/Total_Count,2),'%'))
 
 #-----
-

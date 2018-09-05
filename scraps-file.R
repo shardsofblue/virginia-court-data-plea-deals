@@ -1,20 +1,27 @@
 ####
-#Code scraps file, to practice, store incomplete code, and store old code in case of FUBAR
+#Code scraps file: to practice, store incomplete code, and store old code in case of FUBAR
 
 library(tidyverse)
 library(stringr)
 library(lubridate)
 
-
-#Writing a function to group and count each field
-summarise_and_count <- function(table_name, col_name) {
-  table_name %>%
-    group_by(!! col_name) %>%
-    summarise(count=n()) %>%
-    arrange(desc(count))
+#create a function to compute percentages of cross tabs
+crosstab_percentage <- function(which_summary) {
+  #call col names by num
+  col1 <- colnames(which_summary[1]) 
+  col2 <- colnames(which_summary[2]) 
+  #drop NA from the dataset
+  subset <- subset(which_summary, col1!="NA")
+  #group by col2 and compute total of pleas w/in col2
+  group_by(subset, !!col2) %>%
+    mutate(Total_Count = sum(count)) %>%
+    #group by col1 and compute percentage w/in each col2
+    group_by(!!col1, add=TRUE) %>%
+    mutate(Percentage_of_Total_Count = paste0(round(100*count/Total_Count,2),'%'))
 }
 
-summary_hearingdate <- summarise_and_count(virginia_dc_2017_all, quo(HearingDate))
+test <- crosstab_percentage(summary_pleaandrace)
+
 
 #stored old code in case of FUBAR
 
