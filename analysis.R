@@ -27,7 +27,7 @@ rm(virginia_dc_2017_00,virginia_dc_2017_01,virginia_dc_2017_02,virginia_dc_2017_
 
 ##Exploratory research##
 
-#A function to group and count each field
+#A function to group and count each field individually
 summarise_and_count <- function(table_name, col_name) {
   table_name %>%
     group_by(!! col_name) %>%
@@ -80,12 +80,13 @@ summary_fcostspastdue <- summarise_and_count(thistable, quo(FineCostsPastDue))
 summary_personid <- summarise_and_count(thistable, quo(person_id))
 #----
 
+
 #Notes----
 #The vast majority of pleas were recorded as NA.
 
 #Some cross-tab evaluation----
 
-#A function to analyse cross-tabs
+#A function to create cross-tabs
 cross_tab_analysis <- function(table_name, var1, var2) {
   table_name %>%
     group_by(!!var1, !!var2) %>%
@@ -106,18 +107,19 @@ summary_pleaandrace <- cross_tab_analysis(thistable, quo(HearingPlea), quo(Race)
 #Need to discover the percentage of guilty pleas w/in each race
 
 #A function to compute the percentage of a row and put the results in a new column
-#Step1: I want to take each row, col2, and divide it by total_count, and multiply it by 100
-#Step2: I want to store that data in row1, col3, under the name Percentage
 compute_percentage <- function(which_summary) {
-  
   cell_used <- which_summary$count
   total <- sum(which_summary$count)
+  #Take each row, col2, divide it by total_count, and multiply it by 100
   percentage <- round((cell_used / total)*100,2)
+  #Store that data in row1, col3, under the name Percentage
   mutate(which_summary, percentage)
 }
 
-plea_type_percentagetest <- compute_percentage(summary_hearingplea)
+hearing_plea_percentage <- compute_percentage(summary_hearingplea)
+
+#Computing percentage with cross-tabs
+#
 
 #-----
-.
 
