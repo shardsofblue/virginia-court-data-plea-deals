@@ -6,27 +6,47 @@ library(tidyverse)
 library(stringr)
 library(lubridate)
 
-#Loading data: Virginia, district_criminal_2017_anon_00 from virginiacourtdata.org/#open-data----
-virginia_dc_2017_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_00.csv')
-virginia_dc_2017_01 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_01.csv')
-virginia_dc_2017_02 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_02.csv')
-virginia_dc_2017_03 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_03.csv')
-virginia_dc_2017_04 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_04.csv')
-virginia_dc_2017_05 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_05.csv')
-virginia_dc_2017_06 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_06.csv')
-virginia_dc_2017_07 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_07.csv')
-virginia_dc_2017_08 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/district_criminal_2017_anon_UG6NRN/district_criminal_2017_anon_08.csv')
+#Loading data: Virginia, circuit_criminal_20xx_anon_xx from virginiacourtdata.org/#open-data----
+virginia_cc_2017_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2017_anon_00.csv')
+virginia_cc_2017_01 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2017_anon_01.csv')
+virginia_cc_2016_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2016_anon_00.csv')
+virginia_cc_2015_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2015_anon_00.csv')
+virginia_cc_2014_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2014_anon_00.csv')
+virginia_cc_2013_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2013_anon_00.csv')
+virginia_cc_2012_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2012_anon_00.csv')
+virginia_cc_2011_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2011_anon_00.csv')
+virginia_cc_2010_00 <- read_csv(col_types = cols(RestrictionEndDate=col_character()),'data/circuit_criminal/circuit_criminal_2010_anon_00.csv')
+
 #----
   
 #Combining data from 8 CSVs into one dataset----
-virginia_dc_2017_all <- bind_rows(virginia_dc_2017_00, virginia_dc_2017_01, virginia_dc_2017_02, virginia_dc_2017_03, virginia_dc_2017_04, virginia_dc_2017_05, virginia_dc_2017_06, virginia_dc_2017_07, virginia_dc_2017_08)
+virginia_cc_all <- bind_rows(
+  type.convert(virginia_cc_2017_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2017_01, na.strings = "NA"), 
+  type.convert(virginia_cc_2016_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2015_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2014_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2013_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2012_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2011_00, na.strings = "NA"), 
+  type.convert(virginia_cc_2010_00, na.strings = "NA") 
+  )
 #----
 
-#Removing original files
-rm(virginia_dc_2017_00,virginia_dc_2017_01,virginia_dc_2017_02,virginia_dc_2017_03,virginia_dc_2017_04,virginia_dc_2017_05,virginia_dc_2017_06,virginia_dc_2017_07,virginia_dc_2017_08)
+#Removing original files----
+rm(
+  virginia_dc_2017_00,
+  virginia_dc_2017_01,
+  virginia_dc_2016_00,
+  virginia_dc_2015_00,
+  virginia_dc_2014_00,
+  virginia_dc_2013_00,
+  virginia_dc_2012_00,
+  virginia_dc_2011_00,
+  virginia_dc_2010_00
+)
 
-##Exploratory research##
-
+##Useful functions##----
 #A function to group and count each field individually
 summarise_and_count <- function(table_name, col_name) {
   table_name %>%
@@ -35,57 +55,6 @@ summarise_and_count <- function(table_name, col_name) {
     arrange(desc(count))
 }
 
-#A variable to hold the master table name----
-thistable <- virginia_dc_2017_all
-
-#Computing the summaries and storing them----
-summary_hearingdate <- summarise_and_count(thistable, quo(HearingDate))
-summary_hearingresult <- summarise_and_count(thistable, quo(HearingResult))
-summary_hearingplea <- summarise_and_count(thistable, quo(HearingPlea))
-summary_hearingcontinuancecode <- summarise_and_count(thistable, quo(HearingContinuanceCode))
-summary_hearingtype <- summarise_and_count(thistable, quo(HearingType))
-summary_hearingcourtroom <- summarise_and_count(thistable, quo(HearingCourtroom))
-summary_fips <- summarise_and_count(thistable, quo(fips))
-summary_fileddate <- summarise_and_count(thistable, quo(FiledDate))
-summary_locality <- summarise_and_count(thistable, quo(Locality))
-summary_status <- summarise_and_count(thistable, quo(Status))
-summary_defenseattorney <- summarise_and_count(thistable, quo(DefenseAttorney))
-summary_address <- summarise_and_count(thistable, quo(Address))
-summary_gender <- summarise_and_count(thistable, quo(Gender))
-summary_race <- summarise_and_count(thistable, quo(Race))
-summary_charge <- summarise_and_count(thistable, quo(Charge))
-summary_codesection <- summarise_and_count(thistable, quo(CodeSection))
-summary_casetype <- summarise_and_count(thistable, quo(CaseType))
-summary_class <- summarise_and_count(thistable, quo(Class))
-summary_offensedate <- summarise_and_count(thistable, quo(OffenseDate))
-summary_arrestdate <- summarise_and_count(thistable, quo(ArrestDate))
-summary_complainant <- summarise_and_count(thistable, quo(Complainant))
-summary_amendedcharge <- summarise_and_count(thistable, quo(AmendedCharge))
-summary_amendedcasetype <- summarise_and_count(thistable, quo(AmendedCaseType))
-summary_finaldisposition <- summarise_and_count(thistable, quo(FinalDisposition))
-summary_sentencetime <- summarise_and_count(thistable, quo(SentenceTime))
-summary_sentencesuspendedtime <- summarise_and_count(thistable, quo(SentenceSuspendedTime))
-summary_probationtype <- summarise_and_count(thistable, quo(ProbationType))
-summary_probationtime <- summarise_and_count(thistable, quo(ProbationTime))
-summary_oplisusptime <- summarise_and_count(thistable, quo(OperatorLicenseSuspentionTime))
-summary_restrictioneffectivedate <- summarise_and_count(thistable, quo(RestricitonEffectiveDate))
-summary_restrictionenddate <- summarise_and_count(thistable, quo(RestrictionEndDate))
-summary_oplirestrictcodes <- summarise_and_count(thistable, quo(OperatorLicenceRestrictionCodes))
-summary_fine <- summarise_and_count(thistable, quo(Fine))
-summary_costs <- summarise_and_count(thistable, quo(Costs))
-summary_fcostsdue <- summarise_and_count(thistable, quo(FineCostsDue))
-summary_fcostspaid <- summarise_and_count(thistable, quo(FineCostsPaid))
-summary_fcostspaiddate <- summarise_and_count(thistable, quo(FineCostsPaidDate))
-summary_fcostspastdue <- summarise_and_count(thistable, quo(FineCostsPastDue))
-summary_personid <- summarise_and_count(thistable, quo(person_id))
-#----
-
-
-#Notes----
-#The vast majority of pleas were recorded as NA.
-
-#Some cross-tab evaluation----
-
 #A function to create cross-tabs
 cross_tab_analysis <- function(table_name, var1, var2) {
   table_name %>%
@@ -93,18 +62,6 @@ cross_tab_analysis <- function(table_name, var1, var2) {
     summarise(count=n()) %>%
     arrange(desc(count))
 }
-
-#Computing cross-tabs----
-summary_pleaandtype <- cross_tab_analysis(thistable, quo(HearingPlea), quo(HearingType))
-#When discounting NA values (which account for the majority of the data), adjudicatory cases
-
-summary_pleaandgender <- cross_tab_analysis(thistable, quo(HearingPlea), quo(Gender))
-#More men than women pled guilty, but more men than women were charged
-#Need to discover the percentage of men and women who plead guilty vs. those who did not w/in their gender
-
-summary_pleaandrace <- cross_tab_analysis(thistable, quo(HearingPlea), quo(Race))
-#More caucasian than any other race pled guilty, but more caucasian than other races were charged
-#Need to discover the percentage of guilty pleas w/in each race
 
 #A function to compute the percentage of a row and put the results in a new column
 compute_percentage <- function(which_summary) {
@@ -115,17 +72,20 @@ compute_percentage <- function(which_summary) {
   #Store that data in row1, col3, under the name Percentage
   mutate(which_summary, percentage)
 }
+##----
 
-hearing_plea_percentage <- compute_percentage(summary_hearingplea)
+##Exploratory research##----
 
-#Computing percentage with cross-tabs
-#Total for each race----
-summary_pleaandrace_pc <-
-  #group by race and compute total of pleas w/in race, with NA dropped
-  group_by(subset(summary_pleaandrace, HearingPlea!="NA"), Race) %>%
-    mutate(Total_Count = sum(count)) %>%
-    #group by plea made at hearing and compute percentage w/in each race
-    group_by(HearingPlea, add=TRUE) %>%
-    mutate(Percentage_of_Total_Count = paste0(round(100*count/Total_Count,2),'%'))
+#A variable to hold the master table name----
+thistable <- virginia_cc_all
+
+#Computing the summaries and storing them----
+summary_hearingdate <- summarise_and_count(thistable, quo(HearingDate))
+
+#----
+
+
+##Some cross-tab evaluation----
+
 
 #-----
