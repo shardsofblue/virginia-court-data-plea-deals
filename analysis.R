@@ -35,15 +35,15 @@ virginia_cc_all <- bind_rows(
 
 #Removing original files----
 rm(
-  virginia_dc_2017_00,
-  virginia_dc_2017_01,
-  virginia_dc_2016_00,
-  virginia_dc_2015_00,
-  virginia_dc_2014_00,
-  virginia_dc_2013_00,
-  virginia_dc_2012_00,
-  virginia_dc_2011_00,
-  virginia_dc_2010_00
+  virginia_cc_2017_00,
+  virginia_cc_2017_01,
+  virginia_cc_2016_00,
+  virginia_cc_2015_00,
+  virginia_cc_2014_00,
+  virginia_cc_2013_00,
+  virginia_cc_2012_00,
+  virginia_cc_2011_00,
+  virginia_cc_2010_00
 )
 
 ##Useful functions##----

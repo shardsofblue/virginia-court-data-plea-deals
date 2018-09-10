@@ -5,6 +5,15 @@ library(tidyverse)
 library(stringr)
 library(lubridate)
 
+#command to connect with PostgreSQL database
+con <- DBI::dbConnect(odbc::odbc(),
+                      Driver   = "/usr/local/lib/psqlodbcw.so",
+                      Server   = "va-court-data.c7epjo1jekfc.us-east-1.rds.amazonaws.com",
+                      Database = "vacourtscraper",
+                      UID      = rstudioapi::askForPassword("readonly"),
+                      PWD      = rstudioapi::askForPassword("HamptonRoadsTreeLeaves"),
+                      Port     = 5432)
+
 #create a function to compute percentages of cross tabs
 crosstab_percentage <- function(which_summary) {
   #call col names by num
