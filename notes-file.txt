@@ -5,6 +5,7 @@
 #Apply all duplicated functions across all elements using function (apply?)
 #[IN PROGRESS] Compute meaningful cross-tabulated percentages one-by-one
 #[IN PROGRESS (see scraps file)] Write a universal function to do the above
+#Figure out why so many values are NULL by running various cross-tabs
 #Compare time served with hearing plea
 #Count the number of charges per person_id
 #Discover the mean sentence time of plea bargain vs. trial
