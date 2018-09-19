@@ -5,15 +5,15 @@
 ## analysis.sql
 * working file for analysis of scraped Virginia court data using SQLPro for Postgre
 
-analysis.R
+## analysis.R
 * working file for analysis of scraped Virginia court data using R
 * file for working out functions and methods for future analyses
 
-## notes-file.R
+## notes-file.md
 * To Do list
 * Notes between collaborators
 
-## scraps-file.R
+## scraps.R, scraps.sql
 * Storage for incomplete code
 * Storage for backup code in case of FUBAR
 
