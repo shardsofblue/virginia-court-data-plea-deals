@@ -36,3 +36,4 @@ WHERE
 	"h1"."Type" NOT LIKE 'Plea'
 	AND "h1"."Plea" IS NULL
 ORDER BY "Perc_of_Total" DESC;
+
