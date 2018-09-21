@@ -1,6 +1,6 @@
-#File to store To Do tasks and make notes between collaborators
+# File to store To Do tasks and make notes between collaborators
 
-##Overall Notes:
+## Overall Notes:
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
 
 So far, what I have learned:
@@ -15,7 +15,7 @@ So far, what I have learned:
 	* 64% of Plea Hearings have a NULL plea.
 * 
 
-###To-do:
+### To-do:
 * [IN PROGRESS - SQL] Figure out why so many values are NULL
 * Compare time served with hearing plea
 * Count the number of charges per person_id
@@ -23,9 +23,9 @@ So far, what I have learned:
 * Find average sentence time per race
 
 
-##SQL Notes:
+## SQL Notes:
 * 
 * 
 
-##R Notes:
+## R Notes:
 * The _analysis.R_ file has been set up with a connection to the database, but has no analysis in it. See file _analysis-circuitcourt-prelim.R_ for some functions written with the old, incomplete database.
