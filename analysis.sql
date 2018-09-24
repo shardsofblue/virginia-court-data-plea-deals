@@ -311,3 +311,109 @@ Withdrawn Prior To Trial	1.87
 Trial - Jury	1.22
 Transferred	0.17
 */
+
+/*** After talking with a legal expert, we determined that the number of NULL pleas are primarily because the prosecutor dismissed the charge before a plea was entered. */
+
+/* Deb requested a few random case numbers to check this theory */
+SELECT 	*
+FROM "CircuitCriminalHearing" 
+JOIN "CircuitCriminalCase"
+ON "CircuitCriminalCase"."id" = "CircuitCriminalHearing"."id"
+WHERE "CircuitCriminalHearing"."Plea" is NULL
+LIMIT 300;
+
+/*** B. Let's take a different track and stop looking at the hearing table. */
+
+/* B01 What is in CircuitCriminalCase again? */
+SELECT * FROM "CircuitCriminalCase"
+LIMIT 100;
+
+/* B02 What are the types of Commencedby? */
+SELECT "CircuitCriminalCase"."Commencedby", COUNT(*) as "Count" 
+FROM "CircuitCriminalCase" 
+GROUP BY "CircuitCriminalCase"."Commencedby";
+/* seems irrelevant. */
+
+/* B03 What are the types of ConcludedBy? */
+SELECT "CircuitCriminalCase"."ConcludedBy", COUNT(*) as "Count" 
+FROM "CircuitCriminalCase" 
+GROUP BY "CircuitCriminalCase"."ConcludedBy";
+/* This looks better. */
+
+/* We need to compare trials that ended with guilty pleas to those that ended with a trial. 
+"Guilty Plea" "Trial - Jury" "Trial - Judge With Witness" */
+
+/* B04 How many trials ended with each type of conclusion aka DispositionCode (guilty, dismissed, etc.)? */
+SELECT "CircuitCriminalCase"."DispositionCode", COUNT(*) as "Count" 
+FROM "CircuitCriminalCase" 
+GROUP BY "CircuitCriminalCase"."DispositionCode";
+/* Need to see "Guilty" */
+
+/* B05 Now, let's look just at all info for FELONIES ConcludedBy a GUILTY PLEA or a TRIAL, for only year 2017  */
+SELECT *, 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") AS "YearFiled" /* year column */
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND /* found guilty */
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND /* felony */
+	"CircuitCriminalCase"."SentenceTime" is not null AND /* was sentenced to jail time */
+	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' /* ended with a GUILTY PLEA */
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' /* ended with a JURY TRIAL */
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND /* ended with a JUDGE TRIAL */
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017; /* in 2017 */
+
+/* B06 Same as above, but adding an average sentence time for each charge */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."Charge", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" /* average sentence time */
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+	"CircuitCriminalCase"."SentenceTime" is not null AND
+	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."Charge"; /* grouped by guiltyplea/trial and charge */
+
+/* B07 How many cases ended with a guilty plea or a trial? */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	COUNT("CircuitCriminalCase"."ConcludedBy") as "Count_ConcludedBy" /* count of each */
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+	"CircuitCriminalCase"."SentenceTime" is not null AND
+	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy" /* grouped by guiltyplea/trial */
+ORDER BY "Count_ConcludedBy" DESC;
+
+/* B08 How many of each type of case (aka charge type) ended with a guilty plea or a trial? */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."SentenceTime") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence"
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+	"CircuitCriminalCase"."SentenceTime" is not null AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection"; /* grouped by guiltyplea/trial and charge code */
+
+/* B09 This is already checking for people found guilty by DispositionCode, so I think I should also look at sentence times that were zero (aka NULL). */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."SentenceTime") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence"
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection";
+
