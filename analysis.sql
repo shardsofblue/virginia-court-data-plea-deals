@@ -406,8 +406,8 @@ GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection
 /* B09 This is already checking for people found guilty by DispositionCode, so I think I should also look at sentence times that were zero (aka NULL). */
 SELECT "CircuitCriminalCase"."ConcludedBy", 
 	"CircuitCriminalCase"."CodeSection", 
-	COUNT("CircuitCriminalCase"."SentenceTime") as "Count_of_cases", 
-	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence"
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
 FROM "CircuitCriminalCase" 
 WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
 	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
@@ -417,3 +417,24 @@ WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
 GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection";
 
+SELECT *
+FROM "CircuitCriminalCase"
+LIMIT 100; 
+
+/* Let me count how many got zero sentence time (a NULL sentence time) for each */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."CodeSection") as "Count_of_No_Jail_Time"
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+	"CircuitCriminalCase"."SentenceTime" IS NULL AND
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."fips";
+
+/* Analyzing the above to an Excel spreadsheet */
+/* NEXT STEP: In SQL, pull back to 10 years instead of just 2017 */
+/* ALSO in XLS clean data by: sort-by Charge, combine similar charges */

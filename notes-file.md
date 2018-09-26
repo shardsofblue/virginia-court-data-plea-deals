@@ -4,16 +4,15 @@
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
 * Excel file export2 has the latest work
 
-TODO on 8/26:
-* use FIPS codes to figure out what areas the crimes are in, and see if that correlates to crimes that are REF_NOT_FOUND
-<https://github.com/bschoenfeld/virginia-court-data-analysis/blob/master/data/circuit_courts.csv>
+TODO on 10/1:
+* In SQL, pull back to 10 years instead of just 2017
+* In XLS clean data by: sort-by Charge, combine similar charges
 
 What I have learned:
-9/24
+As of... 9/26
+* The REF_NOT_FOUND crimes were a data error. 
 * Null pleas at hearings were because so many of the charges are dropped by the prosecutor.
 * Instead of looking at the Hearings table at all, we can use the main Case table and use the ConcludedBy field to tell us whether a case was determined based on a guilty plea or a trial.
-
-9/20
 * 90% of the pleas are NULL.
 * 70% of the NULL pleas are Felonies
 * 19% of NULL pleas are for CodeSection 19.2-306, "Revocation of suspension of sentence and probation", followed by Grand Larceny, Forgery, drug sales, and drug possession, all within the 4th percent. 
@@ -31,9 +30,8 @@ What I have learned:
 * [IN PROGRESS] Compare sentence time with plea
 =======
 ### To-do:
-* [IN PROGRESS - SQL] Figure out why so many values are NULL
+* [DONE] Figure out why so many values are NULL
 * Compare time served with hearing plea
->>>>>>> 41cd2df2aa2692d758c29bc828bb8a1333aeedff
 * Count the number of charges per person_id
 * [IN PROGRESS] Discover the mean sentence time of plea  vs. trial
 * Find average sentence time per race
