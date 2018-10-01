@@ -5,6 +5,9 @@
 ## analysis.sql
 * working file for analysis of scraped Virginia court data using SQLPro for Postgre
 
+## analysis_2007-2017.xlsx
+* working Excel file for analysis of data pulled via SQL
+
 ## analysis.R
 * working file for analysis of scraped Virginia court data using R
 * file for working out functions and methods for future analyses

@@ -2,15 +2,16 @@
 
 ## Overall Notes:
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
-* Excel file export2 has the latest work
+* Excel file _analysis\_2007-2017.xlsx_ and SQL file _analysis.sql_ have the latest work
 
-TODO on 10/1:
-* In SQL, pull back to 10 years instead of just 2017
-* In XLS clean data by: sort-by Charge, combine similar charges
+TODO on 10/3:
+* Finish cleaning Crime_Code data in xlsx
+* Pivot table group by crime codes
+
 
 What I have learned:
 As of... 9/26
-* The REF_NOT_FOUND crimes were a data error. 
+* The REF\_NOT\_FOUND crimes were a data error. 
 * Null pleas at hearings were because so many of the charges are dropped by the prosecutor.
 * Instead of looking at the Hearings table at all, we can use the main Case table and use the ConcludedBy field to tell us whether a case was determined based on a guilty plea or a trial.
 * 90% of the pleas are NULL.

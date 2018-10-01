@@ -421,7 +421,7 @@ SELECT *
 FROM "CircuitCriminalCase"
 LIMIT 100; 
 
-/* Let me count how many got zero sentence time (a NULL sentence time) for each */
+/* B10 Let me count how many got zero sentence time (a NULL sentence time) for each */
 SELECT "CircuitCriminalCase"."ConcludedBy", 
 	"CircuitCriminalCase"."CodeSection", 
 	COUNT("CircuitCriminalCase"."CodeSection") as "Count_of_No_Jail_Time"
@@ -433,8 +433,66 @@ WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
 	"CircuitCriminalCase"."SentenceTime" IS NULL AND
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
-GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."fips";
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection";
 
-/* Analyzing the above to an Excel spreadsheet */
-/* NEXT STEP: In SQL, pull back to 10 years instead of just 2017 */
-/* ALSO in XLS clean data by: sort-by Charge, combine similar charges */
+/***
+NOTE: Concurrent analysis in an Excel file starts here
+***/
+
+/* C01 Pull some alford pleas for Deb */
+SELECT "CircuitCriminalCase"."id", 
+	"CircuitCriminalCase"."CaseNumber", 
+	"CircuitCriminalCase"."fips", 
+	"CircuitCriminalCase"."Filed",
+	"CircuitCriminalCase"."Defendant",
+	"CircuitCriminalCase"."Charge",
+	"CircuitCriminalCase"."CodeSection",
+	"CircuitCriminalCase"."DispositionCode",
+	"CircuitCriminalCase"."ConcludedBy",
+	"CircuitCriminalCase"."SentenceTime",
+	"CircuitCriminalCase"."FineAmount",
+	"CircuitCriminalCase"."OperatorLicenseSuspensionTime"
+FROM "CircuitCriminalHearing" 
+JOIN "CircuitCriminalCase"
+ON "CircuitCriminalCase"."id" = "CircuitCriminalHearing"."id"
+WHERE "CircuitCriminalHearing"."Plea" = 'Alford'
+	AND extract(year from "CircuitCriminalCase"."Filed") BETWEEN 2012 AND 2017
+ORDER BY "CircuitCriminalCase"."Filed";
+
+/***
+NOTE: New Excel analysis file starts here
+***/
+
+/* C02 Pull back to 10 years instead of just 2017 (sql) */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection";
+
+/* C03 Count of how many got zero sentence time (a NULL sentence time) for each */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."CodeSection") as "Count_of_No_Jail_Time"
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+	"CircuitCriminalCase"."SentenceTime" IS NULL AND
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection";
+
+/* Clean data by: sort-by Charge, combine similar charges (xls) */
+/* ^^ IN PROGRESS--left off in file "analysis_2007-2017", sheet "main_cleaned", row 628 when sorted by Charge_Code */
+
+/* Next, pivot table to group (xls) */
+/* After data clean, do location analysis */
