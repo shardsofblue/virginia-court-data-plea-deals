@@ -440,13 +440,57 @@ NOTE: Concurrent analysis in an Excel file starts here
 ***/
 
 /* C01 Pull some alford pleas for Deb */
-SELECT "CircuitCriminalCase"."id", 
+
+/* id fields didn't line up, so I ran some checks to figure out which fields to join them on */
+SELECT *
+FROM "CircuitCriminalCase"
+LIMIT 10;
+
+SELECT *
+FROM "CircuitCriminalHearing"
+LIMIT 10;
+
+SELECT *
+FROM "CircuitCriminalHearing"
+WHERE "CircuitCriminalHearing"."Plea" = 'Alford';
+
+SELECT *
+FROM "CircuitCriminalCase"
+WHERE "CircuitCriminalCase"."id" = 1234545;
+/*CR120F0014-01 2012-03-19 */
+
+SELECT *
+FROM "CircuitCriminalHearing"
+WHERE "CircuitCriminalHearing"."id" = 1234545;
+/*237752 2016-03-02 */
+
+SELECT *
+FROM "CircuitCriminalHearing"
+WHERE "CircuitCriminalHearing"."case_id" = 1133818;
+/* 3094150: 2017-11-01 to 2018-01-10  */
+/* 741150: 2012-09-04 to 2013-01-25 */
+/* 1133818: 2012-03-26 to 2012-07-10*/
+
+SELECT *
+FROM "CircuitCriminalCase"
+WHERE "CircuitCriminalCase"."id" = 1133818;
+/* 3094150: 2017-11-01  */
+/* 741150: 2013-01-25 */
+/* 1133818: 2012-07-10*/
+
+SELECT *
+FROM "CircuitCriminalCase"
+WHERE "CircuitCriminalCase"."id" = 3241370;
+
+SELECT 
+	"CircuitCriminalCase"."id", 
 	"CircuitCriminalCase"."CaseNumber", 
 	"CircuitCriminalCase"."fips", 
 	"CircuitCriminalCase"."Filed",
 	"CircuitCriminalCase"."Defendant",
 	"CircuitCriminalCase"."Charge",
 	"CircuitCriminalCase"."CodeSection",
+	"CircuitCriminalHearing"."Plea",
 	"CircuitCriminalCase"."DispositionCode",
 	"CircuitCriminalCase"."ConcludedBy",
 	"CircuitCriminalCase"."SentenceTime",
@@ -454,10 +498,11 @@ SELECT "CircuitCriminalCase"."id",
 	"CircuitCriminalCase"."OperatorLicenseSuspensionTime"
 FROM "CircuitCriminalHearing" 
 JOIN "CircuitCriminalCase"
-ON "CircuitCriminalCase"."id" = "CircuitCriminalHearing"."id"
+ON "CircuitCriminalCase"."id" = "CircuitCriminalHearing"."case_id"
 WHERE "CircuitCriminalHearing"."Plea" = 'Alford'
 	AND extract(year from "CircuitCriminalCase"."Filed") BETWEEN 2012 AND 2017
 ORDER BY "CircuitCriminalCase"."Filed";
+
 
 /***
 NOTE: New Excel analysis file starts here
