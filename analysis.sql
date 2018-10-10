@@ -541,3 +541,31 @@ GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection
 
 /* Next, pivot table to group (xls) */
 /* After data clean, do location analysis */
+
+
+/* */
+SELECT *, 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."id", "CircuitCriminalCase"."ConcludedBy"
+ORDER BY "CircuitCriminalCase"."CodeSection" DESC;
+
+
+SELECT *, 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."CodeSection" LIKE '%18.2-91'
+GROUP BY "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."id", "CircuitCriminalCase"."ConcludedBy"
+ORDER BY "CircuitCriminalCase"."CodeSection" DESC;
+
+SELECT *
+FROM "CircuitCriminalCase";
