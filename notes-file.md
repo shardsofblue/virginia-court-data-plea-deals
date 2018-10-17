@@ -4,9 +4,10 @@
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
 * Excel file _analysis\_2007-2017.xlsx_ and SQL file _analysis.sql_ have the latest work
 
-TODO on 10/3:
-* Finish cleaning Crime_Code data in xlsx
-* Pivot table group by crime codes
+TODO:
+* compute statistically valid categories
+* get Sean to look over my Excel files for methodology checking
+* start working with the data in R
 
 
 What I have learned:
@@ -25,7 +26,6 @@ As of... 9/26
 	* 64% of Plea Hearings have a NULL plea.
 * 
 
-<<<<<<< HEAD
 ###To-do:
 * [DONE] Figure out why so many values are NULL
 * [IN PROGRESS] Compare sentence time with plea
@@ -43,4 +43,4 @@ As of... 9/26
 * 
 
 ## R Notes:
-* The _analysis.R_ file has been set up with a connection to the database, but has no analysis in it. See file _analysis-circuitcourt-prelim.R_ for some functions written with the old, incomplete database.
+* The _analysis.R_ file has been set up with a connection to the database, but has no analysis in it. See file _old\_code\_archive/analysis-circuitcourt-prelim.R_ for some functions written with the old, incomplete database.
