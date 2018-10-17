@@ -18,18 +18,18 @@
 ### What I have learned:
 As of... 10/17
 * Pending analysis of statistical relevance, there appears to be the strongest penalty for crimes involving drugs or welfare.
-* The REF\_NOT\_FOUND crimes were a data error. 
-* Null pleas at hearings were because so many of the charges are dropped by the prosecutor.
+* Null pleas at hearings were (probably) because so many of the charges are dropped by the prosecutor (per legal expert).
 * Instead of looking at the Hearings table at all, we can use the main Case table and use the ConcludedBy field to tell us whether a case was determined based on a guilty plea or a trial.
-* 90% of the pleas are NULL.
-* 70% of the NULL pleas are Felonies
-* 19% of NULL pleas are for CodeSection 19.2-306, "Revocation of suspension of sentence and probation", followed by Grand Larceny, Forgery, drug sales, and drug possession, all within the 4th percent. 
-	* 90.8% of all Revocation charges are NULL pleas (I should see whether this is true across all crime types)
-* Trials account for the highest percentage of NULL pleas, at 14%, 
-	* 72% of Trial Hearings have a NULL plea.
-* followed by Grand Jury Hearings, at 12.9%. 
-* Plea Hearings account for 5.3% of NULL pleas, somewhere in the middle of the pack.
-	* 64% of Plea Hearings have a NULL plea.
+* NULL values analysis
+	* 90% of the pleas are NULL.
+	* 70% of the NULL pleas are Felonies
+	* 19% of NULL pleas are for CodeSection 19.2-306, "Revocation of suspension of sentence and probation", followed by Grand Larceny, Forgery, drug sales, and drug possession, all within the 4th percent. 
+		* 90.8% of all Revocation charges are NULL pleas (I should see whether this is true across all crime types)
+	* Trials account for the highest percentage of NULL pleas, at 14%, 
+		* 72% of Trial Hearings have a NULL plea.
+	* followed by Grand Jury Hearings, at 12.9%. 
+	* Plea Hearings account for 5.3% of NULL pleas, somewhere in the middle of the pack.
+		* 64% of Plea Hearings have a NULL plea.
 
 
 ## SQL Notes:
