@@ -1,17 +1,23 @@
-# File to store To Do tasks and make notes between collaborators
+# File to store To-Do tasks and make notes between collaborators
 
 ## Overall Notes:
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
 * Excel file _analysis\_2007-2017.xlsx_ and SQL file _analysis.sql_ have the latest work
 
-TODO:
+### TODO:
 * compute statistically valid categories
 * get Sean to look over my Excel files for methodology checking
-* start working with the data in R
+* load cleaned data into R
+* [IN PROGRESS] Which crimes have a trial penalty? _Compute the mean sentence time of plea  vs. trial by crime_
+* Is there a stronger penalty for people based on race? Gender?
+* How many charges do people generally receive? Are a large number dropped when a person takes a plea deal? _Count the number of charges per person\_id_
+* [DONE] Figure out why so many values are NULL
+* [DONE]? Clean crime\_code\_keys so I can use them to examine types of crime
 
 
-What I have learned:
-As of... 9/26
+### What I have learned:
+As of... 10/17
+* Pending analysis of statistical relevance, there appears to be the strongest penalty for crimes involving drugs or welfare.
 * The REF\_NOT\_FOUND crimes were a data error. 
 * Null pleas at hearings were because so many of the charges are dropped by the prosecutor.
 * Instead of looking at the Hearings table at all, we can use the main Case table and use the ConcludedBy field to tell us whether a case was determined based on a guilty plea or a trial.
@@ -24,18 +30,6 @@ As of... 9/26
 * followed by Grand Jury Hearings, at 12.9%. 
 * Plea Hearings account for 5.3% of NULL pleas, somewhere in the middle of the pack.
 	* 64% of Plea Hearings have a NULL plea.
-* 
-
-###To-do:
-* [DONE] Figure out why so many values are NULL
-* [IN PROGRESS] Compare sentence time with plea
-=======
-### To-do:
-* [DONE] Figure out why so many values are NULL
-* Compare time served with hearing plea
-* Count the number of charges per person_id
-* [IN PROGRESS] Discover the mean sentence time of plea  vs. trial
-* Find average sentence time per race
 
 
 ## SQL Notes:
