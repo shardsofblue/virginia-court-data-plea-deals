@@ -49,8 +49,10 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	  * Stripped prefix letters
   * **Grouping by crime type**
     * Excel pivot table grouped by crime code chapter or subsection's looked-up text
+      * _SEAN: In my pivot table, should I be running average of average trial sentence or sum of average trial sentence?_
     * Compute difference between average sentence times of plea vs. trial (judge and jury combined)
-  	* _SEAN: In my pivot table, should I be running average of average trial sentence or sum of average trial sentence?_
+  	
+## 4. ANOVA to determine statistical relevance (using R)
     
     
   
