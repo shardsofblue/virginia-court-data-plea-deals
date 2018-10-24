@@ -6,13 +6,13 @@
 
 ### TODO:
 * compute statistically valid categories
-* get Sean to look over my Excel files for methodology checking
 * load cleaned data into R
 * [IN PROGRESS] Which crimes have a trial penalty? _Compute the mean sentence time of plea  vs. trial by crime_
 * Is there a stronger penalty for people based on race? Gender?
 * How many charges do people generally receive? Are a large number dropped when a person takes a plea deal? _Count the number of charges per person\_id_
 * [DONE] Figure out why so many values are NULL
 * [DONE]? Clean crime\_code\_keys so I can use them to examine types of crime
+* [DONE] Get Sean to look over my Excel files for methodology checking (1)
 
 
 ### What I have learned:
