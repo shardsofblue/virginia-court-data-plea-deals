@@ -47,6 +47,8 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	  * Standardized punctuation
   	  * In some cases, pulled the subsection name instead of the chapter name
   	  * Stripped prefix letters
+  	  * Broke multiple crime code entries into two fields.
+  	    * _SEAN:_ If I append these to the bottom, it will create more records. But if I ignore them, they are effectively being erased. I think I should append them; what do you think?_
   * **Grouping by crime type**
     * Excel pivot table grouped by crime code chapter or subsection's looked-up text
       * _SEAN: In my pivot table, should I be running average of average trial sentence or sum of average trial sentence?_
