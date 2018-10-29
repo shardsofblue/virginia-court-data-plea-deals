@@ -13,8 +13,11 @@
 * file for working out functions and methods for future analyses
 
 ## notes-file.md
-* To Do list
+* To-Do list
 * Notes between collaborators
+
+## process-notes_rready.md
+* Detailed and ongoing process trail of R. Ready's analysis
 
 ## scraps.R, scraps.sql
 * Storage for incomplete code
