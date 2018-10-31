@@ -4,14 +4,17 @@
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
 * Excel file _analysis\_2007-2017.xlsx_ and SQL file _analysis.sql_ have the latest work
 
-### TODO:
-* compute statistically valid categories
-* load cleaned data into R
+### Questions to answer:
 * [IN PROGRESS] Which crimes have a trial penalty? _Compute the mean sentence time of plea  vs. trial by crime_
 * Is there a stronger penalty for people based on race? Gender?
+* Are more people of a certain race or gender likely to take plea deals?
 * How many charges do people generally receive? Are a large number dropped when a person takes a plea deal? _Count the number of charges per person\_id_
+
+### TODO:
+* [IN PROGRESS] Clean crime\_code\_keys so I can use them to examine types of crime
+* load cleaned data into R
+* compute statistically valid categories using ANOVA
 * [DONE] Figure out why so many values are NULL
-* [DONE]? Clean crime\_code\_keys so I can use them to examine types of crime
 * [DONE] Get Sean to look over my Excel files for methodology checking (1)
 
 
