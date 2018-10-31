@@ -11,11 +11,13 @@
 * How many charges do people generally receive? Are a large number dropped when a person takes a plea deal? _Count the number of charges per person\_id_
 
 ### TODO:
-* [IN PROGRESS] Clean crime\_code\_keys so I can use them to examine types of crime
-* load cleaned data into R
-* compute statistically valid categories using ANOVA
+* export from SQL again and clean, taking into account suspended sentence
+* look at life sentence counts (not average) by percentage
+* load cleaned data into R (?)
 * [DONE] Figure out why so many values are NULL
 * [DONE] Get Sean to look over my Excel files for methodology checking (1)
+* [DONE] Clean crime\_code\_keys so I can use them to examine types of crime
+* [VOID] compute statistically valid categories using ANOVA
 
 
 ### What I have learned:

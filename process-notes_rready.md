@@ -57,6 +57,7 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	* Checked rough totals between Excel and SQL
   	
 ## 4. Preliminary analysis
+  * See file _preliminary\_findings.md_
     
     
   
