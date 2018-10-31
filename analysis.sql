@@ -512,7 +512,8 @@ NOTE: New Excel analysis file starts here
 SELECT "CircuitCriminalCase"."ConcludedBy", 
 	"CircuitCriminalCase"."CodeSection", 
 	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
-	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence",
+	AVG("CircuitCriminalCase"."SentenceTime" - "CircuitCriminalCase"."SentenceSuspended") as "Average_Sentence_Adjusted" 
 FROM "CircuitCriminalCase" 
 WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
 	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
@@ -569,3 +570,88 @@ ORDER BY "CircuitCriminalCase"."CodeSection" DESC;
 
 SELECT *
 FROM "CircuitCriminalCase";
+
+SELECT *
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."CaseNumber" LIKE 'CR01000029-01'
+AND "CircuitCriminalCase"."fips" = 47;
+
+SELECT *
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."fips" = 47
+AND EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+
+/* Group by disposition date and person
+if same name, subset of 
+*/
+
+SELECT "CircuitCriminalCase"."CodeSection",
+	"CircuitCriminalCase"."ConcludedBy", 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."CodeSection" LIKE '%18.2-95' AND
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY ROLLUP("CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."id", "CircuitCriminalCase"."ConcludedBy");
+
+/* adjusted sentence time for sentence suspension*/
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence",
+	AVG("CircuitCriminalCase"."SentenceTime" - "CircuitCriminalCase"."SentenceSuspended") as "Average_Sentence_Adjusted" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY ROLLUP("CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection");
+
+/* Looking at only 18.2-%*/
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence",
+	AVG("CircuitCriminalCase"."SentenceTime" - "CircuitCriminalCase"."SentenceSuspended") as "Average_Sentence_Adjusted" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."CodeSection" LIKE '%18.2-3%' AND
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017
+GROUP BY ROLLUP("CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection");
+
+/* Looking at only HOMICIDES 18.2-3%*/
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."LifeDeath",
+	"CircuitCriminalCase"."CodeSection", 
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases"
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."LifeDeath" IS NOT NULL AND
+	("CircuitCriminalCase"."CodeSection" LIKE '%18.2-3%' AND
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2007 AND 2017)
+GROUP BY ROLLUP("CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."LifeDeath");
+
+SELECT *
+FROM "CircuitCriminalCase"
+WHERE "CircuitCriminalCase"."LifeDeath" IS NOT NULL;
+
+/*
+-write up analysis of the data I have
+-do again taking into account suspended sentence
+-look at life sentence counts (not average) by percentage
+*/

@@ -43,18 +43,20 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	    * CR07000117-00 (Z.)
   	* **Solution:** 
   	  * _Combination of hand cleaning, Excel functions, and [OpenRefine.org](www.openrefine.org)_
-  	  * Reduced all crime codes to show a maximum of one level of subsection
+  	  * Reduced many crime codes to one level of subsection
   	  * Standardized punctuation
   	  * In some cases, pulled the subsection name instead of the chapter name
   	  * Stripped prefix letters
-  	  * Broke multiple crime code entries into two fields.
-  	    * _SEAN: If I append these to the bottom, it will create more records. But if I ignore them, they are effectively being erased. I think I should append them; what do you think?_
+  	  * Broke multiple crime code entries into two fields. Dropped info for charges that were paired.
+  	    * If I append these to the bottom, it will create more records. But if I ignore them, they are effectively being erased. Analysis shows they make up less than 1% of the data (.33%).
   * **Grouping by crime type**
     * Excel pivot table grouped by crime code chapter or subsection's looked-up text
       * _SEAN: In my pivot table, should I be running average of average trial sentence or sum of average trial sentence?_
     * Compute difference between average sentence times of plea vs. trial (judge and jury combined)
+  * **Verification**
+  	* Checked rough totals between Excel and SQL
   	
-## 4. ANOVA to determine statistical relevance (using R)
+## 4. Preliminary analysis
     
     
   
