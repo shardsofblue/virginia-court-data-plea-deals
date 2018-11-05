@@ -651,7 +651,106 @@ FROM "CircuitCriminalCase"
 WHERE "CircuitCriminalCase"."LifeDeath" IS NOT NULL;
 
 /*
--write up analysis of the data I have
+
 -do again taking into account suspended sentence
 -look at life sentence counts (not average) by percentage
+-build a dataset of everyone charged with X, join on (birthday+name or person_id)+date-of-charge
+-Homicides are highest prio, others are for developing out if they show a penalty
+-rate of charges dropped for X: how often does someone get charged for a more serious crime vs convicted of said crime
+--how many who were charged with X were convicted of that charge, vs. lower charge and how does that relate to guilty pleas
+
+-pick one year, one (big) fips
+-charges stored as temp table, joined to original dataset
 */
+
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."CodeSection", 
+	"CircuitCriminalCase"."fips",
+	COUNT("CircuitCriminalCase"."id") as "Count_of_cases", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence",
+	AVG("CircuitCriminalCase"."SentenceTime" - "CircuitCriminalCase"."SentenceSuspended") as "Average_Sentence_Adjusted" 
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."CodeSection", "CircuitCriminalCase"."fips"
+ORDER BY "CircuitCriminalCase"."fips";
+
+/* Count of murder cases by fips*/
+SELECT "CircuitCriminalCase"."fips",
+	COUNT("CircuitCriminalCase"."fips") as "Count_of_cases" 
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."CodeSection" LIKE '%18.2-31%' AND
+	/*OR "CircuitCriminalCase"."CodeSection" LIKE '%18.2-32%') AND*/
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."fips"
+ORDER BY "CircuitCriminalCase"."fips";
+
+/* All capital murders  */
+CREATE TEMP TABLE capital_murders AS
+SELECT *  
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."CodeSection" LIKE '%18.2-31%' AND
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+ORDER BY "CircuitCriminalCase"."fips";
+
+SELECT *
+FROM "capital_murders";
+
+/* Mr. Contreras' 8 charges, guilty plea, none dropped */
+SELECT *  
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."Defendant" LIKE '%CONTRERAS%' AND
+	"CircuitCriminalCase"."fips" = 165 AND
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+
+/* unique defendant values for capital murders, for use as a filter for future queries */
+CREATE TEMP TABLE cap_murder_defs AS
+SELECT DISTINCT "CircuitCriminalCase"."Defendant"
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."CodeSection" LIKE '%18.2-31%' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+
+SELECT *
+FROM "cap_murder_defs";
+
+DROP TABLE cap_murder_defs;
+
+/* all charges for people who were charged with capital murder (requires creation of temp table above) */
+SELECT *
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+	
