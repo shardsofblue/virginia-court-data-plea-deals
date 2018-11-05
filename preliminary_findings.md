@@ -15,3 +15,7 @@ Preliminary findings on exported and cleaned data indicate the following:
 This preliminary analysis has serious limitations and should not be used to draw conclusions. This analysis does not take into account: 
 1. ...life sentences, because these are not coded into the field used to calculate the average sentence time.
 2. ...sentences that have been suspended.
+
+![Full Chart](va-court-analysis/charts_etc/prelim_chart_full.png "Full Chart")
+
+![Limited Chart](va-court-analysis/charts_etc/prelim_chart_limited.png "Limited Chart")
