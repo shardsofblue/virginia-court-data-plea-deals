@@ -725,7 +725,7 @@ WHERE
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
 
-/* unique defendant values for capital murders, for use as a filter for future queries */
+/* unique defendant values for capital murders BY YEAR, for use as a filter for future queries */
 CREATE TEMP TABLE cap_murder_defs AS
 SELECT DISTINCT "CircuitCriminalCase"."Defendant"
 FROM "CircuitCriminalCase" 
@@ -735,14 +735,15 @@ WHERE
 		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
-	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007;
 
 SELECT *
 FROM "cap_murder_defs";
 
+/* if it's misbehaving, drop and recreate */
 DROP TABLE cap_murder_defs;
 
-/* all charges for people who were charged with capital murder (requires creation of temp table above) */
+/* all charges for people who were charged with capital murder in YEAR (requires creation of temp table above) */
 SELECT *
 FROM "CircuitCriminalCase"
 JOIN "cap_murder_defs"
@@ -752,5 +753,5 @@ WHERE
 		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
-	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007;
 	
