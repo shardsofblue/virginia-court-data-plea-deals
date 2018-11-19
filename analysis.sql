@@ -755,3 +755,17 @@ WHERE
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007;
 	
+/* Look at average sentence time for each charge, roughly ordered by similar charge names and from most to least sentence times */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."Charge", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" /* average sentence time */
+FROM "CircuitCriminalCase" 
+WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+	"CircuitCriminalCase"."SentenceTime" is not null AND
+	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."Charge" /* grouped by guiltyplea/trial and charge */
+ORDER BY "Average_Sentence", "CircuitCriminalCase"."Charge" DESC;
