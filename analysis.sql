@@ -695,8 +695,24 @@ WHERE
 GROUP BY "CircuitCriminalCase"."fips"
 ORDER BY "CircuitCriminalCase"."fips";
 
+/* Look at average sentence time for each charge, roughly ordered by similar charge names and from most to least sentence times */
+SELECT "CircuitCriminalCase"."ConcludedBy", 
+	"CircuitCriminalCase"."Charge", 
+	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" /* average sentence time */
+FROM "CircuitCriminalCase" 
+WHERE 
+	"CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+	"CircuitCriminalCase"."SentenceTime" is not null AND
+	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' 
+		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017
+GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."Charge" /* grouped by guiltyplea/trial and charge */
+ORDER BY "Average_Sentence", "CircuitCriminalCase"."Charge" DESC;
+
 /* All capital murders  */
-CREATE TEMP TABLE capital_murders AS
+CREATE TEMP TABLE "capital_murders" AS
 SELECT *  
 FROM "CircuitCriminalCase" 
 WHERE 
@@ -725,8 +741,9 @@ WHERE
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017;
 
+/* TEMP TABLE */
 /* unique defendant values for capital murders BY YEAR, for use as a filter for future queries */
-CREATE TEMP TABLE cap_murder_defs AS
+CREATE TEMP TABLE "cap_murder_defs" AS
 SELECT DISTINCT "CircuitCriminalCase"."Defendant"
 FROM "CircuitCriminalCase" 
 WHERE 
@@ -735,15 +752,17 @@ WHERE
 		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
-	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007;
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
+	/* EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007; */
 
 SELECT *
 FROM "cap_murder_defs";
 
 /* if it's misbehaving, drop and recreate */
-DROP TABLE cap_murder_defs;
+DROP TABLE "cap_murder_defs";
 
-/* all charges for people who were charged with capital murder in YEAR (requires creation of temp table above) */
+/* all charges for people who were charged with capital murder in YEAR */
+/* Requires temp table above */
 SELECT *
 FROM "CircuitCriminalCase"
 JOIN "cap_murder_defs"
@@ -754,18 +773,108 @@ WHERE
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2007;
-	
-/* Look at average sentence time for each charge, roughly ordered by similar charge names and from most to least sentence times */
-SELECT "CircuitCriminalCase"."ConcludedBy", 
-	"CircuitCriminalCase"."Charge", 
-	AVG("CircuitCriminalCase"."SentenceTime") as "Average_Sentence" /* average sentence time */
-FROM "CircuitCriminalCase" 
-WHERE "CircuitCriminalCase"."DispositionCode" = 'Guilty' AND
+
+
+/* Look at sentence times and charges for people who were charged with capital murder in five years */
+/* Requires temp table above */
+SELECT 
+	"CircuitCriminalCase"."Defendant",
+	SUM("CircuitCriminalCase"."SentenceTime") AS "sentence",
+	CASE WHEN SUM("CircuitCriminalCase"."SentenceSuspended") IS NOT NULL /* When there is a sentence suspension */
+		THEN SUM("CircuitCriminalCase"."SentenceTime") - SUM("CircuitCriminalCase"."SentenceSuspended") /* calculate adjusted sentence */
+		ELSE SUM("CircuitCriminalCase"."SentenceTime") /* otherwise just print out the sentence */
+	END AS "adjusted_sentence"
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
 	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
-	"CircuitCriminalCase"."SentenceTime" is not null AND
-	("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' 
-		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' 
-		OR "CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND
-	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") = 2017
-GROUP BY "CircuitCriminalCase"."ConcludedBy", "CircuitCriminalCase"."Charge" /* grouped by guiltyplea/trial and charge */
-ORDER BY "Average_Sentence", "CircuitCriminalCase"."Charge" DESC;
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017
+GROUP BY "CircuitCriminalCase"."Defendant";
+
+
+/* How many times is life also coded as a time-length vs not */
+/* 5 out of 33, one of which has a sentence time coded as 0, one has it coded as 33 years x2*/
+SELECT DISTINCT "CircuitCriminalCase"."Defendant",
+	"CircuitCriminalCase"."LifeDeath",
+	"CircuitCriminalCase"."SentenceTime"
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."LifeDeath" LIKE 'Life Sentence' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
+
+/* who had sentence time as 99 years (36135) and did not have life sent ticked */
+SELECT DISTINCT "CircuitCriminalCase"."Defendant",
+	"CircuitCriminalCase"."LifeDeath",
+	"CircuitCriminalCase"."SentenceTime"
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."SentenceTime" >= 36135 AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
+
+/* Same as above but grouped by year */
+/* THIS IS NOT USESFUL BECAUSE IT LOOKS AT INDIVIDUAL CHARGES, NOT GROUPED BY DEFENDENT */
+/* SELECT EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") AS "year",
+	COUNT("CircuitCriminalCase"."LifeDeath")
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."LifeDeath" LIKE 'Life%' AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017
+GROUP BY "year";*/
+
+/* new lookup for if life sent */
+SELECT "CircuitCriminalCase"."Defendant",
+	CASE WHEN ("CircuitCriminalCase"."LifeDeath" LIKE 'Life%')
+	THEN 'Y'
+	ELSE 'N'
+	END AS "is_life"
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
+
+
+/* How many times is 99 years marked as a sentence time */
+/* 8, 4 of which are also coded in LifeDeath */
+SELECT *
+FROM "CircuitCriminalCase"
+JOIN "cap_murder_defs"
+ON "CircuitCriminalCase"."Defendant" = "cap_murder_defs"."Defendant"
+WHERE 
+	"CircuitCriminalCase"."SentenceTime" >= 36135 AND
+	"CircuitCriminalCase"."ChargeType" = 'Felony' AND
+		("CircuitCriminalCase"."ConcludedBy" = 'Guilty Plea' OR 
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Jury' OR
+		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
+	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
+
+
+
+
+
