@@ -9,8 +9,12 @@ Finally, 73 percent of people who took a plea deal had their sentences suspended
 Most people — 78 percent — chose to take a plea deal instead of going to trial. But of those who did go to trial, 26 percent were found not guilty. (Of course, all 102 people who pled guilty were found guilty, except a single case where the defendant was deemed insane.)
 
 This analysis: 
-* Looked only at defendants charged with capital murder between 2013 and 2017 who were found guilty of that or a related crime (except for guilty/innocent statistic, which looked at both guilty and not guilty).
-* Considered all life sentences as 99 years and did not multiply this value for multiple life sentences.
-* Considered all sentence times as consecutive totals because:
+* Looked only at defendants charged with capital murder between 2013 and 2017 who were found guilty of that or a related crime (except for guilty/not guilty statistic, which looked at both guilty and not guilty).
+* Considered all life sentences as 99 years and did not multiply this value for multiple life sentences. I made this decision because the data had the following limitations:
+  * Sometimes the field for "life sentence" is marked instead of a length of sentence being noted.
+  * Sometimes "life sentence" is marked in addition to a length of sentence being noted. (Where this occurs, the length of sentences marked in the "life sentence" field is usually 99 years, but in one case is 50, presumably based on the age of the defendant.)
+  * Sometimes "life sentence" is not marked but the length of sentence coincides with a time marked elsewhere in the "life sentence" field (99 years). In these cases I then marked the "life sentence" field.
+  * Note: Under this definition, life sentences make up 27 percent of plea cases and 30 percent of trial cases.
+* Considered all sentence times as consecutive totals. I made this decision because:
   * 60 percent of the cases did not specify whether the times were consecutive or concurrent.
-  * only 3 percent of the cases were marked as concurrent, as opposed to 32 percent that were marked consecutive.
+  * only 3 percent of the cases were marked as concurrent, as opposed to 32 percent that were marked consecutive (6 percent were charges that each resulted in a combination of concurrent and consecutive sentences).
