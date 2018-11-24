@@ -874,7 +874,17 @@ WHERE
 		"CircuitCriminalCase"."ConcludedBy" = 'Trial - Judge With Witness') AND 
 	EXTRACT(YEAR FROM "CircuitCriminalCase"."Filed") BETWEEN 2013 AND 2017;
 
+/*
+Of the defendants convicted at trial:
+# and % of cases that went to trial? Average sentence?
+Of those, # and % convicted of capital murder? Average sentence?
+Of those, # and % convicted of a lesser charge? Average sentence?
 
+Of the defendants convicted as a result of a guilty plea:
+# and % of cases that resulted in a guilty plea? Average sentence?
+# and % that pleaded guilty to capital murder? Average sentence?
+# and % that pleaded guilty to a lesser charge? Average sentence?
+*/
 
 
 
