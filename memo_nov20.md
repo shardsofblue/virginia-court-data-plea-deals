@@ -38,14 +38,14 @@ _The starting universe for the information below is: defendants who were **charg
   * Combined: 47.3 years
 
 * Convicted by plea: 102
-  * Of murder: 59, 58 percent
+  * Of capital murder: 59, 58 percent
     * Avg sent: 60.6 years
   * Of a lesser crime (due to amendment): 43, 42 percent
     * Avg sent: 26 years
   * Combined avg sent: 45.92 years
 
 * Convicted at trial: 29
-  * Of murder: 23, 79 percent
+  * Of capital murder: 23, 79 percent
     * Avg sent: 53.53 years
   * Of a lesser crime (due to amendment): 6, 21 percent
     * Avg sent: 45.82 years
