@@ -48,7 +48,7 @@ _The starting universe for the information below is: defendants who were **charg
   
 
 ### Questions I'm answering
-<span font-size: 2em>
+<span style="font-size: 2em">
 _Of the defendants convicted at trial:_
 num and % of cases that went to trial? Average sentence?
 Of those, # and % convicted of capital murder? _Average sentence?_
