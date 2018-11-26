@@ -47,7 +47,8 @@ _The starting universe for the information below is: defendants who were **charg
   * Of a lesser crime (due to amendment): 44, 43 percent
   
 
-  
+### Questions I'm answering
+<span font-size: 2em>
 _Of the defendants convicted at trial:_
 num and % of cases that went to trial? Average sentence?
 Of those, # and % convicted of capital murder? _Average sentence?_
@@ -57,3 +58,4 @@ _Of the defendants convicted as a result of a guilty plea:_
 num and % of cases that resulted in a guilty plea? Average sentence?
 num and % that pleaded guilty to capital murder? _Average sentence?_
 num and % that pleaded guilty to a lesser charge? _Average sentence?_
+</span>
