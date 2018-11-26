@@ -51,6 +51,6 @@ _The starting universe for the information below is: defendants who were **charg
     * Avg sent: 45.82 years
   * **Combined** avg sent: 52.15
 
-* **Life sentences**
+* **Life sentences**: total: 36, 27 percent
   * From **plea**: 27 of 102, 26 percent
   * From **trial**: 9 of 29, 31 percent
