@@ -14,7 +14,7 @@ Most people — 78 percent — chose to take a plea deal instead of going to tri
 
 This analysis: 
 * Looked only at defendants charged with capital murder between 2013 and 2017 who were found guilty of that or a related crime (except for guilty/not guilty statistic, which looked at both guilty and not guilty).
-* Does not include Frederick County.
+* Does not include circuit courts for Fairfax County or Alexandria.
 * Considered all life sentences as 99 years and did not multiply this value for multiple life sentences. I made this decision because the data had the following limitations:
   * Sometimes the field for "life sentence" is marked instead of a length of sentence being noted.
   * Sometimes "life sentence" is marked in addition to a length of sentence being noted. (Where this occurs, the length of sentences marked in the "life sentence" field is usually 99 years, but in one case is 50, presumably based on the age of the defendant.)
