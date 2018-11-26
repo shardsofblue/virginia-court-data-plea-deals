@@ -1,5 +1,7 @@
 ## Analysis
 
+[Excel analysis](https://github.com/shardsofblue/va-court-analysis/blob/master/homicide_case_summaries.xlsx)
+
 Defendants charged with capital murder between 2013 and 2017 received longer sentences if they went to trial and were found guilty than if they took a plea deal, at an average of 6.23 more years.
 
 Those defendants were also much more likely to have had their charges amended if they took a plea deal than if they went to trial. Fifty-two percent of capital murder defendants who took a plea deal had their charges amended to something less serious, compared to 28 percent of those who went to trial — a difference of 24 percent.
