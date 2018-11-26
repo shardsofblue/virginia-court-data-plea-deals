@@ -884,6 +884,8 @@ Of the defendants convicted as a result of a guilty plea:
 # and % of cases that resulted in a guilty plea? Average sentence?
 # and % that pleaded guilty to capital murder? Average sentence?
 # and % that pleaded guilty to a lesser charge? Average sentence?
+
+Analyzed in Excel
 */
 
 

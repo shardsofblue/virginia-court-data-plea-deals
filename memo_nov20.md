@@ -28,25 +28,29 @@ This analysis:
 
 _The starting universe for the information below is: defendants who were **charged with capital murder** and **convicted** of that or a lesser crime._
 
-* Total capital murder cases with a guilty verdict for any crime: 131
+* **Total** capital murder cases with a guilty verdict for any crime: 131
   * Plea: 12, 78 percent
   * Trial: 29, 22 percent
 
-* Average sentence times for capital murder cases with a guilty verdict for any crime (adjusted for suspensions and with life sentences set to 99 years)
+* **Average sentence times** for capital murder cases with a guilty verdict for any crime (adjusted for suspensions and with life sentences set to 99 years)
   * Plea: 45.92 years
   * Trial: 52.15 years
   * Combined: 47.3 years
 
-* Convicted by plea: 102
-  * Of capital murder: 59, 58 percent
+* Convicted **by plea**: 102
+  * Of **capital murder**: 59, 58 percent
     * Avg sent: 60.6 years
-  * Of a lesser crime (due to amendment): 43, 42 percent
+  * Of a **lesser crime** (due to amendment): 43, 42 percent
     * Avg sent: 26 years
-  * Combined avg sent: 45.92 years
+  * **Combined** avg sent: 45.92 years
 
-* Convicted at trial: 29
-  * Of capital murder: 23, 79 percent
+* Convicted **at trial**: 29
+  * Of **capital murder**: 23, 79 percent
     * Avg sent: 53.53 years
-  * Of a lesser crime (due to amendment): 6, 21 percent
+  * Of a **lesser crime** (due to amendment): 6, 21 percent
     * Avg sent: 45.82 years
-  * Combined avg sent: 52.15
+  * **Combined** avg sent: 52.15
+
+* **Life sentences**
+  * From plea: 27 of 102, 26 percent
+  * From trial: 9 of 29, 31 percent
