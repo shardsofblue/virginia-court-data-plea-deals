@@ -1,3 +1,5 @@
+## Analysis
+
 Defendants charged with capital murder between 2013 and 2017 received longer sentences if they went to trial and were found guilty than if they took a plea deal, at an average of 6.23 more years.
 
 Those defendants were also much more likely to have had their charges amended if they took a plea deal than if they went to trial. Fifty-two percent of capital murder defendants who took a plea deal had their charges amended to something less serious, compared to 28 percent of those who went to trial — a difference of 24 percent.
@@ -7,6 +9,8 @@ Additionally, an outsized percentage of capital murder charges were against a ci
 Finally, 73 percent of people who took a plea deal had their sentences suspended, compared to 67 percent of those who went to trial.
 
 Most people — 78 percent — chose to take a plea deal instead of going to trial. But of those who did go to trial, 26 percent were found not guilty. (Of course, all 102 people who pled guilty were found guilty, except a single case where the defendant was deemed insane.)
+
+##Limitations
 
 This analysis: 
 * Looked only at defendants charged with capital murder between 2013 and 2017 who were found guilty of that or a related crime (except for guilty/not guilty statistic, which looked at both guilty and not guilty).
@@ -19,3 +23,37 @@ This analysis:
 * Considered all sentence times as consecutive totals. I made this decision because:
   * 60 percent of the cases did not specify whether the times were consecutive or concurrent.
   * only 3 percent of the cases were marked as concurrent, as opposed to 32 percent that were marked consecutive (6 percent were charges that each resulted in a combination of concurrent and consecutive sentences).
+  
+## Additional Info
+
+_The starting universe for the information below is: defendants who were **charged with capital murder** and **convicted** of that or a lesser crime._
+
+* Total homicide cases: 147
+  * Plea, 104, 71 percent
+  * Trial, 42, 29 percent
+  * blank, 1, 1 percent
+
+* Average sentence times for homicide cases (adjusted for suspensions and with life sentences set to 99 years)
+  * Plea: 45.92 years
+  * Trial: 52.15 years
+  * Combined: 47.3 years
+
+* Convicted at trial: 29
+  * Of murder: 24, 82 percent
+  * Of a lesser crime (due to amendment): 5, 17 percent
+
+* Convicted by plea: 102
+  * Of murder: 58, 57 percent
+  * Of a lesser crime (due to amendment): 44, 43 percent
+  
+
+  
+_Of the defendants convicted at trial:_
+num and % of cases that went to trial? Average sentence?
+Of those, # and % convicted of capital murder? _Average sentence?_
+Of those, # and % convicted of a lesser charge? _Average sentence?_
+
+_Of the defendants convicted as a result of a guilty plea:_
+num and % of cases that resulted in a guilty plea? Average sentence?
+num and % that pleaded guilty to capital murder? _Average sentence?_
+num and % that pleaded guilty to a lesser charge? _Average sentence?_
