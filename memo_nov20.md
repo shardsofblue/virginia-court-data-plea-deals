@@ -10,7 +10,7 @@ Finally, 73 percent of people who took a plea deal had their sentences suspended
 
 Most people — 78 percent — chose to take a plea deal instead of going to trial. But of those who did go to trial, 26 percent were found not guilty. (Of course, all 102 people who pled guilty were found guilty, except a single case where the defendant was deemed insane.)
 
-##Limitations
+## Limitations
 
 This analysis: 
 * Looked only at defendants charged with capital murder between 2013 and 2017 who were found guilty of that or a related crime (except for guilty/not guilty statistic, which looked at both guilty and not guilty).
