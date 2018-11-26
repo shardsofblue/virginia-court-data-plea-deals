@@ -52,5 +52,5 @@ _The starting universe for the information below is: defendants who were **charg
   * **Combined** avg sent: 52.15
 
 * **Life sentences**
-  * From plea: 27 of 102, 26 percent
-  * From trial: 9 of 29, 31 percent
+  * From **plea**: 27 of 102, 26 percent
+  * From **trial**: 9 of 29, 31 percent
