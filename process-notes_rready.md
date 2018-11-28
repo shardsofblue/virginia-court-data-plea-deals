@@ -1,6 +1,6 @@
 # Process Notes
 
-*Last updated: Oct. 24*
+*Last updated: Nov. 28*
 
 Overall Goal: Compare sentence lengths from charges that ended with guilty pleas to those that ended with a trial.
 
@@ -51,7 +51,6 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	    * If I append these to the bottom, it will create more records. But if I ignore them, they are effectively being erased. Analysis shows they make up less than 1% of the data (.33%).
   * **Grouping by crime type**
     * Excel pivot table grouped by crime code chapter or subsection's looked-up text
-      * _SEAN: In my pivot table, should I be running average of average trial sentence or sum of average trial sentence?_
     * Compute difference between average sentence times of plea vs. trial (judge and jury combined)
   * **Verification**
   	* Checked rough totals between Excel and SQL
@@ -68,8 +67,9 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
     * were amended
     * resulted in a life sentence
     * included a sentence suspension
-  * Noticed during entry that a high number of cases were brought as attempted capital murder of a police officer and then amended to a lesser charge (usually assault) upon appeal.
-    * Coded to search the charge description (a hand-entered summary of the charges) for key words and crime codes that aligned with the noted pattern
+  * Totalled sentence times per case and adjusted them for suspensions
+  * Noticed during data entry that a high number of cases were brought as attempted capital murder of a police officer and then amended upon appeal to a lesser charge (usually assault).
+    * Coded to search the charge description (a hand-entered summary of the charges) for key words and crime codes that aligned with this noted pattern
   * Please see _[this memo](https://github.com/shardsofblue/va-court-analysis/blob/master/memo\_nov20.md)_ for a full description of the findings and limitations of this analysis.
-  
+
     
