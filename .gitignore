@@ -1,6 +1,129 @@
+##################
+# Folder for holding large datasets
+##################
 data
-.Rproj.user
-.Rhistory
-.RData
+
+##################
+# Mac ugly bits
+##################
 ._*
 ~$*
+.DS_Store
+*.swp
+*~.nib
+
+##################
+# R
+##################
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+/*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+rsconnect/
+
+###########################
+# ignore generated binaries
+# but not the data folder
+###########################
+
+/bin/*
+!/bin/data/
+
+#########
+# general
+#########
+
+[Bb]uild/
+[Oo]bj/
+*.o
+[Dd]ebug*/
+[Rr]elease*/
+*.mode*
+*.app/
+*.pyc
+.svn/
+*.log
+
+########################
+# IDE files which should
+# be ignored
+########################
+
+# XCode
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+# XCode 4
+xcuserdata
+*.xcworkspace
+
+# Code::Blocks
+*.depend
+*.layout
+
+# Visual Studio
+*.sdf
+*.opensdf
+*.suo
+*.pdb
+*.ilk
+*.aps
+ipch/
+
+# Eclipse
+.metadata
+local.properties
+.externalToolBuilders
+
+##################
+# other operating systems
+##################
+
+# Linux
+*~
+# KDE
+.directory
+.AppleDouble
+
+# Windows
+# Image file caches
+Thumbs.db
+# Folder config file
+Desktop.ini
+
+# Android
+.csettings
