@@ -57,7 +57,7 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   	
 ## 4. Preliminary analysis
   * A quick preliminary analysis of the charges resulted in some unexpected findings, but these findings are not reliable because they do not take into account life sentences, sentence suspensions or multiple charges brought at the same time.
-  * See file _[preliminary\_findings.md](https://github.com/shardsofblue/va-court-analysis/blob/master/preliminary\_findings.md)_
+  * See file _[preliminary\_findings.md](https://github.com/shardsofblue/va-court-analysis/blob/master/old\_code\_archive/preliminary\_findings.md)_
     
 ## 5. Capital Murder analysis
   * The story evolving at the copy desk required an analysis of capital murder cases.
@@ -70,6 +70,6 @@ Overall Goal: Compare sentence lengths from charges that ended with guilty pleas
   * Totalled sentence times per case and adjusted them for suspensions
   * Noticed during data entry that a high number of cases were brought as attempted capital murder of a police officer and then amended upon appeal to a lesser charge (usually assault).
     * Coded to search the charge description (a hand-entered summary of the charges) for key words and crime codes that aligned with this noted pattern
-  * Please see _[this memo](https://github.com/shardsofblue/va-court-analysis/blob/master/memo\_nov20.md)_ for a full description of the findings and limitations of this analysis.
+  * Please see [this memo](https://github.com/shardsofblue/va-court-analysis/blob/master/memo\_nov20.md) for a full description of the findings and limitations of this analysis.
 
     

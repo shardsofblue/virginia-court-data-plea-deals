@@ -2,7 +2,6 @@
 
 ## Overall Notes:
 * Roxanne has been working on this data within SQLPro for Postgre, which is installed on computer 3210-09. 
-* Excel file _analysis\_2007-2017.xlsx_ and SQL file _analysis.sql_ have the latest work
 
 ### Questions to answer:
 * [IN PROGRESS] Which crimes have a trial penalty? _Compute the mean sentence time of plea  vs. trial by crime_
@@ -43,3 +42,38 @@ As of... 10/17
 
 ## R Notes:
 * The _analysis.R_ file has been set up with a connection to the database, but has no analysis in it. See file _old\_code\_archive/analysis-circuitcourt-prelim.R_ for some functions written with the old, incomplete database.
+
+# File explanations
+*Note only machine 3210-09 has the proper programs and drivers to access and use the PostgreSQL database*
+
+## analysis.sql
+* working file for analysis of scraped Virginia court data using SQLPro for Postgre
+
+## homicide_case_summaries.xlsx
+* main finished analysis focused on capital murder cases over three years
+
+## analysis_2007-2017.xlsx
+* working Excel file for analysis of data pulled via SQL
+
+## analysis.R
+* working file for analysis of scraped Virginia court data using R
+* file for working out functions and methods for future analyses
+
+## notes-file.md
+* To-Do list
+* Notes between collaborators
+
+## process-notes_rready.md
+* Detailed and ongoing process trail of R. Ready's analysis
+
+## scraps.R, scraps.sql
+* Storage for incomplete code
+* Storage for backup code in case of FUBAR
+
+## NOTE
+
+.gitignore
+* __required__ to keep over-large files from preventing uploads to github
+	* .Rdata
+	* data
+	* .Rproj.user
